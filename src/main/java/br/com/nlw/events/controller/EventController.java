@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.nlw.events.model.Event;
 import br.com.nlw.events.service.EventService;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 public class EventController {
@@ -23,7 +25,16 @@ public class EventController {
     @PostMapping("/events")
     public Event addNewEvent(@RequestBody Event newEvent) {
         return service.addNewEvent(newEvent);
-
-
     }
+
+    @GetMapping("/events")
+    public List<Event> getAllEvents() {
+        return service.getAllEvents();
+    }
+    
+    @GetMapping("/events/{prettyName}")
+    public Event getEventByPrettyName(@PathVariable String prettyName) {
+        return service.getByPrettyName(prettyName);
+    }
+        
 }
