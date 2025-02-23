@@ -33,8 +33,12 @@ public class EventController {
     }
     
     @GetMapping("/events/{prettyName}")
-    public Event getEventByPrettyName(@PathVariable String prettyName) {
-        return service.getByPrettyName(prettyName);
+    public ResponseEntity<Event> getEventByPrettyName(@PathVariable String prettyName) {
+        Event evt = service.getByPrettyName(prettyName);
+            if (evt != null) { //Evento existe no banco de dados
+                return ResponseEntity.ok().body(evt);
+            }
+            return ResponseEntity.notFound().build();
     }
         
 }
