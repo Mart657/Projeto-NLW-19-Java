@@ -6,7 +6,7 @@ import java.util.stream.IntStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
+import br.com.nlw.events.exception.EventNotFoundException;
 import br.com.nlw.events.model.Event;
 import br.com.nlw.events.model.Subscription;
 import br.com.nlw.events.model.User;
@@ -30,11 +30,19 @@ public class SubscriptionService {
         
         //Recuperar evento pelo nome
         Event evt = evtRepo.findByPrettyName(eventName);
-        user = userRepo.save(user);
+        if (evt == null) {
+            throw new EventNotFoundException("Evento "+eventName+ "nao existe");
+            
+        }
+        User userRec = userRepo.findByEmail(user.getEmail());
+        if (userRec == null) {
+            user = userRepo.save(user);
+            
+        }
 
         Subscription subs = new Subscription();
         subs.setEvent(evt);
-        subs.setSubscriber(user);
+        subs.setSubscriber(userRec);
 
         Subscription res = subRepo.save(subs);
         return res;
