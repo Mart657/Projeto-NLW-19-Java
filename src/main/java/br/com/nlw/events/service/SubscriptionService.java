@@ -1,12 +1,9 @@
 package br.com.nlw.events.service;
 
-import java.nio.file.attribute.UserPrincipalNotFoundException;
-import java.util.List;
-import java.util.stream.IntStream;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.nlw.events.exception.UserIndicadorNotFoundException;
 import br.com.nlw.events.dto.SubscriptionResponse;
 import br.com.nlw.events.exception.EventNotFoundException;
 import br.com.nlw.events.exception.SubscriptionConflictException;
@@ -44,7 +41,7 @@ public class SubscriptionService {
         }
         User indicador = userRepo.findById(userId).orElse(null);
         if (indicador == null) {
-            throw new UserPrincipalNotFoundException("Usuario"+userId+ "indicador não existe");
+            throw new UserIndicadorNotFoundException("Usuario"+userId+ "indicador não existe");
         }
 
         Subscription subs = new Subscription();
