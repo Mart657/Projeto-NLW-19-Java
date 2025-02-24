@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.nlw.events.dto.ErrorMessage;
+import br.com.nlw.events.dto.SubscriptionConflictException;
 import br.com.nlw.events.exception.EventNotFoundException;
 import br.com.nlw.events.model.Subscription;
 import br.com.nlw.events.model.User;
@@ -31,6 +32,10 @@ public class SubscriptionController {
     }
         catch (EventNotFoundException ex) {
             return ResponseEntity.status(404).body(new ErrorMessage(ex.getMessage()));
+        }
+        catch(SubscriptionConflictException ex) {
+            return ResponseEntity.status(409).body(new ErrorMessage(ex.getMessage()));
+            
         }
         return ResponseEntity.badRequest().build();
     }
