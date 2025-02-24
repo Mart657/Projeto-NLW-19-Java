@@ -1,13 +1,15 @@
 package br.com.nlw.events.service;
 
+import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.List;
 import java.util.stream.IntStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.nlw.events.dto.SubscriptionConflictException;
+import br.com.nlw.events.dto.SubscriptionResponse;
 import br.com.nlw.events.exception.EventNotFoundException;
+import br.com.nlw.events.exception.SubscriptionConflictException;
 import br.com.nlw.events.model.Event;
 import br.com.nlw.events.model.Subscription;
 import br.com.nlw.events.model.User;
@@ -27,7 +29,7 @@ public class SubscriptionService {
     @Autowired
     private SubscriptionRepo subRepo;
 
-    public Subscription createNewSubscription(String eventName, User user){
+    public SubscriptionResponse createNewSubscription(String eventName, User user, Integer userId){
         
         //Recuperar evento pelo nome
         Event evt = evtRepo.findByPrettyName(eventName);
@@ -40,10 +42,15 @@ public class SubscriptionService {
             userRec = userRepo.save(user);
             
         }
+        User indicador = userRepo.findById(userId).orElse(null);
+        if (indicador == null) {
+            throw new UserPrincipalNotFoundException("Usuario"+userId+ "indicador não existe");
+        }
 
         Subscription subs = new Subscription();
         subs.setEvent(evt);
         subs.setSubscriber(userRec);
+        subs.setIndication(indicador);
 
         Subscription tmpSub = subRepo.findByEventAndSubscriber(evt, userRec);  
         if (tmpSub != null) { //Caso alternativo 3
@@ -52,7 +59,7 @@ public class SubscriptionService {
         }        
 
         Subscription res = subRepo.save(subs);
-        return res;
+        return new SubscriptionResponse(res.getSubscriptionNumber(), "http://codecraft.com/"+res.getEvent().getPrettyName()+"/"+res.getSubscriber().getId());
 
     }
 

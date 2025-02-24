@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.nlw.events.model.Event;
 import br.com.nlw.events.service.EventService;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController
