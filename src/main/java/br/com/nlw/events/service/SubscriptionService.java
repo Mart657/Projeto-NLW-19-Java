@@ -56,7 +56,7 @@ public class SubscriptionService {
         }        
 
         Subscription res = subRepo.save(subs);
-        return new SubscriptionResponse(res.getSubscriptionNumber(), "http://codecraft.com/"+res.getEvent().getPrettyName()+"/"+res.getSubscriber().getId());
+        return new SubscriptionResponse(res.getSubscriptionNumber(), "http://codecraft.com/subscription"+res.getEvent().getPrettyName()+"/"+res.getSubscriber().getId());
 
     }
 
