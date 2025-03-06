@@ -22,6 +22,6 @@ public interface SubscriptionRepo extends CrudRepository<Subscription, Integer> 
                 "   group by indication_user_id" + //
                 "   order by quantidade desc" , nativeQuery = true)
 
-    public List<SubscriptionRankingItem> generateRanking(@Param("eventId") Integer eventId);
+    public List<SubscriptionRankingName> generateRanking(@Param("eventId") Integer eventId);
 
 }

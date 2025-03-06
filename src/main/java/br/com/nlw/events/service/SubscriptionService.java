@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.nlw.events.exception.UserIndicadorNotFoundException;
+import br.com.nlw.events.dto.SubscriptionRankingByUser;
+import br.com.nlw.events.dto.SubscriptionRankingName;
 import br.com.nlw.events.dto.SubscriptionResponse;
 import br.com.nlw.events.exception.EventNotFoundException;
 import br.com.nlw.events.exception.SubscriptionConflictException;
@@ -64,12 +66,24 @@ public class SubscriptionService {
 
     }
 
-    public List<SubscriptionRankingItem> getCompleteRanking(String prettyName){
+    public List<SubscriptionRankingName> getCompleteRanking(String prettyName){
         Event evt = evtRepo.findByPrettyName(prettyName);
         if (evt == null) {
             throw new EventNotFoundException("Ranking do evento "+prettyName+ "Não Existe");
         }
         return subRepo.generateRanking(evt.getEventId());
         
+    }
+
+    public SubscriptionRankingByUser getRankingByUser(String prettyName, Integer userId){
+        List<SubscriptionRankingName> ranking = getCompleteRanking(prettyName);
+        
+        SubscriptionRankingName item = ranking.stream().filter(i->i.userId().equals(userId)).findFirst().orElse(null);
+    if (item == null) {
+        throw new UserIndicadorNotFoundException("Não há inscrições com indicação do usuário"+userId);
+
+    }
+    System.out.println(item);
+    return null;
     }
 }
