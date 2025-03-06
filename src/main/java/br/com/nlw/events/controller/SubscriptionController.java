@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
+
+
 @RestController
 public class SubscriptionController {
 
@@ -60,7 +62,13 @@ public class SubscriptionController {
        
     }
     
-
+    @GetMapping("/subscription/{prettyName}/ranking/userId")
+    public ResponseEntity generateRankingByEventAndUser(@PathVariable String prettyName,
+                                                        @PathVariable Integer userId) {
+        service.getRankingByUser(prettyName, userId);
+        return null;
+    }
+    
 
 }
 
