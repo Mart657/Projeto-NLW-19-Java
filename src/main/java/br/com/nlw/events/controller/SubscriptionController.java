@@ -16,6 +16,9 @@ import br.com.nlw.events.exception.EventNotFoundException;
 import br.com.nlw.events.exception.SubscriptionConflictException;
 import br.com.nlw.events.model.User;
 import br.com.nlw.events.service.SubscriptionService;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 public class SubscriptionController {
@@ -46,6 +49,20 @@ public class SubscriptionController {
         }
         return ResponseEntity.badRequest().build();
     }
+    @GetMapping("/subscription/{prettyname}/ranking")
+    public ResponseEntity<?> generateRankingByEvent(@PathVariable String prettyName) {
+        try {
+            return ResponseEntity.ok(service.getCompleteRanking(prettyName));
+        } catch (EventNotFoundException e) {
+            return ResponseEntity.status(404).body(new ErrorMessage(e.getMessage()));
+    
+        }
+       
+    }
+    
+
+
 }
+
     
 

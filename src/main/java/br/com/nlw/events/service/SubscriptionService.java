@@ -1,5 +1,7 @@
 package br.com.nlw.events.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -62,4 +64,12 @@ public class SubscriptionService {
 
     }
 
+    public List<SubscriptionRankingItem> getCompleteRanking(String prettyName){
+        Event evt = evtRepo.findByPrettyName(prettyName);
+        if (evt == null) {
+            throw new EventNotFoundException("Ranking do evento "+prettyName+ "Não Existe");
+        }
+        return subRepo.generateRanking(evt.getEventId());
+        
+    }
 }
