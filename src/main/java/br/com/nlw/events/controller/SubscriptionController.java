@@ -17,7 +17,7 @@ import br.com.nlw.events.exception.SubscriptionConflictException;
 import br.com.nlw.events.model.User;
 import br.com.nlw.events.service.SubscriptionService;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 
@@ -63,7 +63,7 @@ public class SubscriptionController {
     }
     
     @GetMapping("/subscription/{prettyName}/ranking/{userId}")
-    public ResponseEntity generateRankingByEventAndUser(@PathVariable String prettyName,
+    public ResponseEntity<?> generateRankingByEventAndUser(@PathVariable String prettyName,
                                                         @PathVariable Integer userId) {
         try {
             return ResponseEntity.ok(service.getRankingByUser(prettyName, userId));
