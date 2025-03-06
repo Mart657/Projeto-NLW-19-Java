@@ -23,7 +23,7 @@ public class SubscriptionController {
     @Autowired
     private SubscriptionService service;
 
-    @PostMapping({"/subscription/{prettyName}", "/subscription/{prettyName}/{userId"})
+    @PostMapping({"/subscription/{prettyName}", "/subscription/{prettyName}/userId"})
     public ResponseEntity<?> createSubscription(@PathVariable String prettyName, 
                                                 @RequestBody User subscriber,
                                                 @PathVariable (required = false) Integer userId) {
